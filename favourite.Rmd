@@ -1,0 +1,28 @@
+---
+title: "W2 assignment"
+author: "Jordi Tejedor"
+date: "1/10/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## My Favourite places to eat in Badalona
+
+This map has been created using this R program and my list of favourite places to eat
+
+```{r favourite , message=FALSE, warning=FALSE}
+library(leaflet)
+library(tidyr)
+df <- read.csv('favourite.csv',fileEncoding = "UTF-8")
+df <- separate(data = df, col = loc, into=c('lat','lng'), sep=', ')
+df$lat <- as.numeric(gsub(',', '.', df$lat))
+df$lng <- as.numeric(gsub(',', '.', df$lng))
+df$popup <- paste(df$name,'<br>',df$address)
+df %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(popup=df$popup)
+```
