@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Final Assignment</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Final Assignment">
+  <meta name="author" content="Jordi Tejedor">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  
+  <hgroup class="auto-fadein">
+    <h1>Final Assignment</h1>
+    <h2>Pitch</h2>
+    <p>Jordi Tejedor<br/>Student</p>
+  </hgroup>
+  
+  <article></article>  
+  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  
+  <hgroup>
+    <h2>Samples of a normal distribution</h2>
+  </hgroup>
+  
+  <article data-timings="">
+    <p>I created this application to help learn some statistical concepts</p>
+<ul>
+<li>
+<p>How important is the number of samples to fit between these random samples with the real distribution</p>
+</li>
+<li>
+<p>How the Normal distribution changes when the standard deviation changes</p>
+</li>
+<li>
+<p>How the seed value is relevant to do reproducible research</p>
+</li>
+</ul>
+<p>You can find the app <a href="https://jorditejedor.shinyapps.io/final_assignment/">here</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  
+  <hgroup>
+    <h2>Overview</h2>
+  </hgroup>
+  
+  <article data-timings="">
+    <p>The application is based on this function that plots the histogram and the distribution curve</p>
+<pre><code class="language-r">output_plot &lt;- function(mean,sd,seed,num_cases) {
+        set.seed(seed)
+        dist = data.frame(dist = rnorm(2^num_cases,mean,sd))
+        plot1 &lt;- ggplot(data = dist) +
+          geom_histogram(mapping = aes(x=dist, y=after_stat(density)), 
+            fill='steelblue', colour='black', binwidth=sd/5) +
+          ggtitle(&quot;Frequencies&quot;) +
+          stat_function(fun = dnorm, args = list(mean = mean, sd=sd)) +
+          xlim(-5,5) + ylim(0,0.75)
+        return(plot1)
+}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  
+  <hgroup>
+    <h2>Example with 256 (2^8) cases</h2>
+  </hgroup>
+  
+  <article data-timings="">
+    <pre><code class="language-r">output_plot(mean = 0, sd = 1, seed = 0, num_cases=8)
+</code></pre>
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-2" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  
+  <hgroup>
+    <h2>Example with 8192 (2^13) cases</h2>
+  </hgroup>
+  
+  <article data-timings="">
+    <pre><code class="language-r">output_plot(mean = 0, sd = 1, seed = 0, num_cases=13)
+</code></pre>
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-3" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Samples of a normal distribution'>
+         1
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Overview'>
+         2
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Example with 256 (2^8) cases'>
+         3
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Example with 8192 (2^13) cases'>
+         4
+      </a>
+    </li>
+    
+    </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
